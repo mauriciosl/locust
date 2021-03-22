@@ -561,6 +561,7 @@ class MasterRunner(DistributedRunner):
                 "num_users": worker_num_users,
                 "host": self.environment.host,
                 "stop_timeout": self.environment.stop_timeout,
+                "user_classes_option": self.environment.user_classes_option,
             }
 
             if remaining > 0:
@@ -802,6 +803,7 @@ class WorkerRunner(DistributedRunner):
                 self.target_user_count = job["num_users"]
                 self.environment.host = job["host"]
                 self.environment.stop_timeout = job["stop_timeout"]
+                self.environment.user_classes_option = job["user_classes_option"]
                 if self.spawning_greenlet:
                     # kill existing spawning greenlet before we launch new one
                     self.spawning_greenlet.kill(block=True)

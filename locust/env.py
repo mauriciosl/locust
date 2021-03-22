@@ -6,7 +6,7 @@ from .web import WebUI
 from .user import User
 from .user.task import filter_tasks_by_tags
 from .shape import LoadTestShape
-from typing import List
+from typing import List, Dict
 
 
 class Environment:
@@ -15,9 +15,11 @@ class Environment:
     Event hooks used by Locust internally, as well as to extend Locust's functionality
     See :ref:`events` for available events.
     """
-
-    user_classes: List[User] = []
+    user_classes_option: List[str] = []
     """User classes that the runner will run"""
+
+    user_classes: Dict[str, User] = {}
+    """User classes that the runner has available"""
 
     shape_class: LoadTestShape = None
     """A shape class to control the shape of the load test"""
@@ -66,7 +68,8 @@ class Environment:
     def __init__(
         self,
         *,
-        user_classes=[],
+        user_classes={},
+        user_classes_option=[],
         shape_class=None,
         tags=None,
         exclude_tags=None,
@@ -82,7 +85,8 @@ class Environment:
         else:
             self.events = Events()
 
-        self.user_classes = user_classes
+        self._user_classes = user_classes
+        self.user_classes_option = user_classes_option
         self.shape_class = shape_class
         self.tags = tags
         self.exclude_tags = exclude_tags
@@ -94,6 +98,16 @@ class Environment:
         self.parsed_options = parsed_options
 
         self._filter_tasks_by_tags()
+
+    @property
+    def user_classes(self):
+        if len(self.user_classes_option) > 0:
+            return [self._user_classes[n] for n in self.user_classes_option]
+        return list(self._user_classes.values())
+
+    @property
+    def user_classes_names(self):
+        return list(self._user_classes.keys())
 
     def _create_runner(self, runner_class, *args, **kwargs):
         if self.runner is not None:

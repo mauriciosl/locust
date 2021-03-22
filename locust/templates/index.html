@@ -78,6 +78,14 @@
                         {% endif %}
                     </label>
                     <input type="text" name="host" id="host" class="val" autocapitalize="off" autocorrect="off" value="{{ host  or "" }}"/><br>
+                    <label for="user_classes_option">
+                        User Classes
+                    </label>
+                    <select multiple name="user_classes_option" id="user_classes_option" class="val">
+                    {% for name in user_classes_names %}
+                        <option value="{{name}}"{% if name in user_classes_option %} selected{% endif %}>{{name}}</option>
+                    {% endfor %}
+                    </select><br>
                     <button type="submit">Start swarming</button>
                 </form>
                 <div style="clear:right;"></div>

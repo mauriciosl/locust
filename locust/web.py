@@ -145,6 +145,12 @@ class WebUI:
                 return jsonify(
                     {"success": True, "message": "Swarming started using shape class", "host": environment.host}
                 )
+            if request.form.get("user_classes_option"):
+                environment.user_classes_option = request.form["user_classes_option"].strip().split(" ")
+            else:
+                environment.user_classes_option = []
+
+            logger.info(repr(environment.user_classes_option))
             user_count = int(request.form["user_count"])
             spawn_rate = float(request.form["spawn_rate"])
 
@@ -398,6 +404,8 @@ class WebUI:
             "is_distributed": is_distributed,
             "user_count": self.environment.runner.user_count,
             "version": version,
+            "user_classes_option": self.environment.user_classes_option,
+            "user_classes_names": self.environment.user_classes_names,
             "host": host,
             "history": stats.history,
             "override_host_warning": override_host_warning,

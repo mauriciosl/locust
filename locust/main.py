@@ -105,6 +105,7 @@ def create_environment(user_classes, options, events=None, shape_class=None):
     """
     return Environment(
         user_classes=user_classes,
+        user_classes_option=options.user_classes,
         shape_class=shape_class,
         tags=options.tags,
         exclude_tags=options.exclude_tags,
@@ -171,12 +172,11 @@ def main():
         if missing:
             logger.error("Unknown User(s): %s\n" % (", ".join(missing)))
             sys.exit(1)
-        else:
-            names = set(options.user_classes) & set(user_classes.keys())
-            user_classes = [user_classes[n] for n in names]
-    else:
-        # list() call is needed to consume the dict_view object in Python 3
-        user_classes = list(user_classes.values())
+#            names = set(options.user_classes) & set(user_classes.keys())
+#            user_classes_option = list(names)
+#    else:
+#        # list() call is needed to consume the dict_view object in Python 3
+#        user_classes_option = list(user_classes.keys())
 
     if os.name != "nt" and not options.master:
 

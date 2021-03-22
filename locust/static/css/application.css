@@ -215,6 +215,12 @@ table.stats {
       width: 328px;
       font-size: 24px;
       padding-left: 10px; }
+    .dialogs .dialog select.val {
+      border: none;
+      background: #fff;
+      width: 328px;
+      font-size: 24px;
+      padding-left: 10px; }
     .dialogs .dialog input.val_disabled {
       border: none;
       background: #cccccc;
